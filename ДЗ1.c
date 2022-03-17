@@ -13,7 +13,7 @@ struct film {
 };
 
 struct film* read_films_from_file();
-struct film * add_film(char *const tmp_name, const int tmp_year, char *const tmp_genre, const float tmp_rating);
+struct film * add_film(struct film * head, char *const tmp_name, const int tmp_year, char *const tmp_genre, const float tmp_rating);
 void print_film(const struct film * const list_films);
 void delete(struct film *list_films);
 struct film *find_film_in_list(struct film * list_films);
@@ -47,57 +47,53 @@ struct film * read_films_from_file()
 	char * tmp_genre = NULL;
 	float tmp_rating = 0;
 	FILE *file;
-	if ((file = fopen("list_films.txt", "r")) != NULL)
+	if ((file = fopen("list_films.txt", "r")) == NULL)
 	{
-		while ((n = fscanf(file, "%ms%d%ms%f\n", &tmp_name, &tmp_year, &tmp_genre, &tmp_rating)) != EOF) 
+		printf("Не удалось открыть файл\n");
+	}
+	while ((n = fscanf(file, "%ms%d%ms%f\n", &tmp_name, &tmp_year, &tmp_genre, &tmp_rating)) != EOF) 
+	{
+		if (tmp_name != NULL && tmp_year >= 1888 && tmp_genre != NULL && tmp_rating >= 0 && tmp_rating <= 10 && n == 4)
 		{
-			if (tmp_name != NULL && tmp_year >= 1888 && tmp_genre != NULL && tmp_rating >= 0 && tmp_rating <= 10 && n == 4)
-			{
-				if(head_list_films == NULL)
-				{
-					list_films = add_film(tmp_name, tmp_year, tmp_genre, tmp_rating);
-					head_list_films = list_films;
-				}
-				else
-				{
-					new_film = add_film(tmp_name, tmp_year, tmp_genre, tmp_rating);
-					list_films->next_film = new_film;
-					list_films = new_film;
-				}
-			}
-			else 
-			{
-				if (tmp_name != NULL)free(tmp_name);
-				if (tmp_genre != NULL)free(tmp_genre);
-			}
+			head_list_films = add_film(head_list_films, tmp_name, tmp_year, tmp_genre, tmp_rating);
 		}
-		fclose(file);
-		if (head_list_films == NULL)	
+		else 
 		{
-			printf("Файл, содержащий список фильмов, пуст!\n");
 			if (tmp_name != NULL)free(tmp_name);
 			if (tmp_genre != NULL)free(tmp_genre);
 		}
 	}
-	else 
+	fclose(file);
+	if (head_list_films == NULL)	
 	{
-		printf("Не удалось открыть файл\n");
+		printf("Файл, содержащий список фильмов, пуст!\n");
+		if (tmp_name != NULL)free(tmp_name);
+		if (tmp_genre != NULL)free(tmp_genre);
 	}
 	return head_list_films;
 }
 
 //struct film * cteate_list_film(char *const tmp_name, const int tmp_year, char *const tmp_genre, const float tmp_rating)
-struct film * add_film(char *const tmp_name, const int tmp_year, char *const tmp_genre, const float tmp_rating)
+struct film * add_film(struct film * head, char *const tmp_name, const int tmp_year, char *const tmp_genre, const float tmp_rating)
 {
 	struct film *new_film = NULL;
-
 	new_film = (struct film *)malloc(sizeof(struct film));
 	new_film->name = tmp_name;
 	new_film->year_of_release = tmp_year;
 	new_film->genre = tmp_genre;
 	new_film->average_rating = tmp_rating;				
 	new_film->next_film = NULL;
-	return new_film;
+	if(head == NULL)
+	{
+		return new_film;
+	}
+	struct film *tail = head;
+	while (tail->next_film != NULL)
+	{
+		tail = tail->next_film;
+	}
+	tail->next_film = new_film;
+	return head;
 }
 
 
@@ -139,57 +135,54 @@ struct film *find_film_in_list(struct film * list_films)
 	float min_rating = 0;
 	float max_rating = 0;
 	FILE *file;
-	if ((file = fopen("find_film.txt", "r")) != NULL)
+	struct film * safe_exit()
 	{
-		n = fscanf(file,"%d%ms%f%f",&find_year,&find_genre,&min_rating,&max_rating);
-		if (n != EOF)
-		{
-			if (find_year >= 1888 && find_genre != NULL && min_rating >= 0 && min_rating <=10 && max_rating >= 0 && max_rating <= 10 && n == 4)
-			{
-				if(min_rating > max_rating) {int change_min_max = min_rating; min_rating = max_rating; max_rating = change_min_max;}
-				while(list_films != NULL)
-				{
-					if(list_films->year_of_release == find_year &&  strcmp(list_films->genre,find_genre) == 0 && list_films->average_rating >= min_rating && list_films->average_rating <= max_rating)
-					{
-						char * name = strdup(list_films->name);
-						char * add_genre = strdup(find_genre);
-						if(head_find_films == NULL)
-						{
-							find_films = add_film(name, find_year, add_genre, list_films->average_rating);
-							head_find_films = find_films;
-						}
-						else
-						{
-							new_film = add_film(name, find_year, add_genre, list_films->average_rating);
-							find_films->next_film = new_film;
-							find_films = new_film;
-						}
-						list_films = list_films->next_film;
-					}
-					else
-					{
-						list_films = list_films->next_film;
-					}
-					
-				}
-				if (find_genre != NULL)free(find_genre);
-			}
-			else {printf("Некорректные критерии для поиска фильмов!\n");if (find_genre != NULL)free(find_genre);fclose(file);return head_find_films;}
-		}
-		else
-		{
-			printf("Файл с критериями пуст!\n");if (find_genre != NULL)free(find_genre);return head_find_films;
-		}
+		if (find_genre != NULL)
+			free(find_genre);
 		fclose(file);
+		return head_find_films;
 	}
-	else 
+
+
+	if ((file = fopen("find_film.txt", "r")) == NULL)
 	{
 		printf("Не удалось открыть файл\n");
 		return head_find_films;	
+	}
+	n = fscanf(file,"%d%ms%f%f",&find_year,&find_genre,&min_rating,&max_rating);
+	if (n == EOF)
+	{
+		printf("Файл с критериями пуст!\n");
+		return safe_exit();
+	}
+	if (find_year < 1888 || find_genre == NULL || min_rating < 0 || min_rating > 10 || max_rating < 0 || max_rating > 10 || n != 4)
+	{
+		printf("Некорректные критерии для поиска фильмов!\n");
+		return safe_exit();
+	}
+	if(min_rating > max_rating) 
+	{
+		int change_min_max = min_rating; 
+		min_rating = max_rating; 
+		max_rating = change_min_max;
+	}
+	while(list_films != NULL)
+	{
+		if(list_films->year_of_release == find_year &&  strcmp(list_films->genre,find_genre) == 0 && list_films->average_rating >= min_rating && list_films->average_rating <= max_rating)
+		{
+			char * name = strdup(list_films->name);
+			char * add_genre = strdup(find_genre);
+			head_find_films = add_film(head_find_films, name, find_year, add_genre, list_films->average_rating);
+			list_films = list_films->next_film;
+		}
+		else
+		{
+			list_films = list_films->next_film;
+		}	
 	}
 	if (head_find_films == NULL)
 	{
 		printf("Фильмы удовлетворяющие критериям не найдены!");
 	}
-	return head_find_films;
+	return safe_exit();
 }
