@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "list.h"
 
 struct film * add_film(struct film * head, char *const tmp_name, const int tmp_year, char *const tmp_genre, const float tmp_rating)

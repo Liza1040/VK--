@@ -5,6 +5,9 @@
 #include <string.h>
 #include "list/list.h"
 
+#define FIND_FILM "../find_film.txt"
+#define LIST_FILM "../list_films.txt"
+
 struct film *find_film_in_list(struct film * list_films);
 struct film* read_films_from_file();
 
@@ -27,16 +30,14 @@ int main() {
 
 struct film * read_films_from_file()
 {
-	struct film *list_films = NULL;
 	struct film *head_list_films = NULL;
-	struct film *new_film = NULL;
 	int n = 0;
 	char * tmp_name = NULL;
 	int tmp_year = 0;
 	char * tmp_genre = NULL;
 	float tmp_rating = 0;
 	FILE *file;
-	if ((file = fopen("list_films.txt", "r")) == NULL)
+	if ((file = fopen(LIST_FILM, "r")) == NULL)
 	{
 		printf("Не удалось открыть файл\n");
 	}
@@ -65,8 +66,6 @@ struct film * read_films_from_file()
 struct film *find_film_in_list(struct film * list_films)
 {
 	struct film *head_find_films = NULL;
-	struct film *find_films = NULL;
-	struct film *new_film = NULL;
 	int n = 0;
 	int find_year = 0;
 	char * find_genre = NULL;
@@ -82,7 +81,7 @@ struct film *find_film_in_list(struct film * list_films)
 	}
 
 
-	if ((file = fopen("find_film.txt", "r")) == NULL)
+	if ((file = fopen(FIND_FILM, "r")) == NULL)
 	{
 		printf("Не удалось открыть файл\n");
 		return head_find_films;	
