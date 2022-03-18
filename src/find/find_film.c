@@ -5,7 +5,7 @@
 #include "find_film.h"
 
 
-struct film * read_films_from_file(const char* file_name)
+struct film * read_films_from_file(FILE *file)
 {
 	struct film *head_list_films = NULL;
 	int n = 0;
@@ -13,37 +13,47 @@ struct film * read_films_from_file(const char* file_name)
 	int tmp_year = 0;
 	char * tmp_genre = NULL;
 	float tmp_rating = 0;
-	FILE *file;
-	if ((file = fopen(file_name, "r")) == NULL)
+	char buf_name[256];
+	char buf_genre[256];
+	while ((n = fscanf(file, "%255[^;];%d; %255[^;];%f\n", &(buf_name[0]), &tmp_year, &(buf_genre[0]), &tmp_rating)) == 4 )  
 	{
-		printf("Не удалось открыть файл\n");
-		return head_list_films;
-	}
-	while ((n = fscanf(file, "%ms%d%ms%f", &tmp_name, &tmp_year, &tmp_genre, &tmp_rating)) != EOF) 
-	{
+		tmp_name = new_string(buf_name);
+		tmp_genre = new_string(buf_genre);
+		//printf("%s",tmp_genre);
+		//printf("%s;%d;%s;%f", tmp_name,tmp_year,tmp_genre,tmp_rating);
 		if (tmp_name != NULL && tmp_year >= 1888 && tmp_genre != NULL && tmp_rating >= 0 && tmp_rating <= 10 && n == 4)
 		{
 			head_list_films = add_film(head_list_films, tmp_name, tmp_year, tmp_genre, tmp_rating);
+			tmp_name = NULL;
+			tmp_genre = NULL;
 		}
 		else 
 		{
-			if (tmp_name != NULL)free(tmp_name);
-			if (tmp_genre != NULL)free(tmp_genre);
-			fclose(file);
-			return head_list_films;
+			break;
 		}
 	}
-	fclose(file);
+	if(n != EOF)
+	{
+		printf("Некорректные данные");
+		free(tmp_name);
+		free(tmp_genre);
+		return NULL;
+	}
 	if (head_list_films == NULL)	
 	{
 		printf("Файл, содержащий список фильмов, пуст!\n");
-		if (tmp_name != NULL)free(tmp_name);
-		if (tmp_genre != NULL)free(tmp_genre);
+		free(tmp_name);
+		free(tmp_genre);
 	}
 	return head_list_films;
 }
-
-struct film *find_film_in_list(struct film * list_films, const char* file_name)
+char* new_string(const char* buf)
+{
+	char* string = (char *)malloc(strlen(buf));
+    strcpy(string, buf);
+	return string;
+}
+struct film *find_film_in_list(struct film * list_films, FILE *file)
 {
 	struct film *head_find_films = NULL;
 	int n = 0;
@@ -51,22 +61,16 @@ struct film *find_film_in_list(struct film * list_films, const char* file_name)
 	char * find_genre = NULL;
 	float min_rating = 0;
 	float max_rating = 0;
-	FILE *file;
+	char buf_genre[256];
 	struct film * safe_exit()
 	{
-		if (find_genre != NULL)
-			free(find_genre);
-		fclose(file);
+		//if (find_genre != NULL)
+		free(find_genre);
 		return head_find_films;
 	}
 
-
-	if ((file = fopen(file_name, "r")) == NULL)
-	{
-		printf("Не удалось открыть файл\n");
-		return head_find_films;	
-	}
-	n = fscanf(file,"%d%ms%f%f",&find_year,&find_genre,&min_rating,&max_rating);
+	n = fscanf(file,"%d; %255[^;];%f;%f",&find_year,&(buf_genre[0]),&min_rating,&max_rating);
+	find_genre = new_string(buf_genre);
 	if (n == EOF)
 	{
 		printf("Файл с критериями пуст!\n");
