@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "list/list.h"
+#include "../list/list.h"
 #include "find_film.h"
 
 

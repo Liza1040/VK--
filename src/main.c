@@ -4,10 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "list/list.h"
-#include "find_film/find_film.h"
+#include "find/find_film.h"
 
-#define FIND_FILM "../find_film.txt"
-#define LIST_FILM "../list_films.txt"
+#define FIND_FILM "find_film.txt"
+#define LIST_FILM "list_films.txt"
 
 int main() {
 	struct film *find_films =  NULL;
@@ -18,9 +18,9 @@ int main() {
 		if(find_films)
 		{
 			print_film(find_films);
-			delete(find_films);
+			delete_film(find_films);
 		}
-		delete(list_films);
+		delete_film(list_films);
 	}
 	return 0;
 }

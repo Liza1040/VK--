@@ -26,12 +26,12 @@ struct film * add_film(struct film * head, char *const tmp_name, const int tmp_y
 
 struct film * get_film(struct film * head, int number_film)
 {
-	while (head->next_film != NULL || number_film > 0)
+	while (head->next_film != NULL && number_film > 1)
 	{
 		head = head->next_film;
 		number_film--;
 	}
-	if(number_film > 0)
+	if(number_film > 1)
 	{
 		printf("Количество фильмов в списке меньше заданного значения\n");
 		return NULL;
@@ -53,7 +53,7 @@ void print_film(const struct film * const list_films)
 }
 
 
-void delete(struct film *list_films)
+void delete_film(struct film *list_films)
 {
 	struct film *tmp;
 	while(list_films != NULL)
