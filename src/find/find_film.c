@@ -17,8 +17,9 @@ struct film * read_films_from_file(const char* file_name)
 	if ((file = fopen(file_name, "r")) == NULL)
 	{
 		printf("Не удалось открыть файл\n");
+		return head_list_films;
 	}
-	while ((n = fscanf(file, "%ms%d%ms%f\n", &tmp_name, &tmp_year, &tmp_genre, &tmp_rating)) != EOF) 
+	while ((n = fscanf(file, "%ms%d%ms%f", &tmp_name, &tmp_year, &tmp_genre, &tmp_rating)) != EOF) 
 	{
 		if (tmp_name != NULL && tmp_year >= 1888 && tmp_genre != NULL && tmp_rating >= 0 && tmp_rating <= 10 && n == 4)
 		{
@@ -28,6 +29,8 @@ struct film * read_films_from_file(const char* file_name)
 		{
 			if (tmp_name != NULL)free(tmp_name);
 			if (tmp_genre != NULL)free(tmp_genre);
+			fclose(file);
+			return head_list_films;
 		}
 	}
 	fclose(file);
