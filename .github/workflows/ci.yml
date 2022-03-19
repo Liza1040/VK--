@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2 
-    - run: make packages && make build
+    - run: make build
     # - name: Upload artifacts
       # uses: actions/upload-artifact@v2
       # with:
