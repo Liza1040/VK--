@@ -21,8 +21,8 @@ function check_log() {
     fi
 }
 
-# print_header "RUN cppcheck"
-# //check_log "cppcheck project --enable=all --inconclusive --error-exitcode=1 -I project/include --suppress=missingIncludeSystem" "\(information\)"
+print_header "RUN cppcheck"
+//check_log "cppcheck project --enable=all --inconclusive --error-exitcode=1 -I project/include --suppress=missingIncludeSystem" "\(information\)"
 
 print_header "RUN clang-tidy"
 check_log "clang-tidy project/src/* project/include/* -warnings-as-errors=* -extra-arg=-std=c99 -- -Iproject/include" "Error (?:reading|while processing)"
