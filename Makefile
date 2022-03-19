@@ -10,7 +10,7 @@ build:
 	cd build && \
 	cmake .. && \
 	cmake --build . && \
-	./src/build/film
+	./film
 
 test:
 	./src/build/tests/test_film && \
