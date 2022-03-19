@@ -210,7 +210,7 @@ TEST(Testfindfilmimlist, Checkcorrectdata) {
     delete_film(head_2);
     fclose(stream_1);
     fclose(stream_2);
-
+    delete_film(head_list_films);
     fclose(stream_list_films);
 }
 
