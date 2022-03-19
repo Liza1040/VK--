@@ -11,8 +11,7 @@ build:
 	cd build && \
 	cmake .. && \
 	cmake --build . && \
-	cp find_film.txt list_films.txt src/build/ && \
-	./film
+	./src/build/film
 
 check: 
 	./linters/run.sh
