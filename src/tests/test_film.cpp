@@ -239,7 +239,7 @@ TEST(Testfindfilmimlist, Checkfilmsnotfound) {
     delete_film(head_list_films);
 }
 
-TEST(Testfindfilmimlist, Checkfilmsfound) {
+/*TEST(Testfindfilmimlist, Checkfilmsfound) {
     char buffer_list_films [] = "Елки; 2010; комедия; 6.9\nВерх; 2000; комедия; 6\nНаследники; 2015; мюзикл; 7.9\nИ в печали, и в радости; 2001; романтика; 10";
     FILE* stream_list_films =fmemopen(buffer_list_films, strlen(buffer_list_films), "r");
     struct film *head_list_films = read_films_from_file(stream_list_films);
@@ -269,7 +269,7 @@ TEST(Testfindfilmimlist, Checkfilmsfound) {
     delete_film(head_1);
     delete_film(head_2);
     delete_film(head_list_films);
-}
+}*/
 
 int main(int argc, char **argv) {
 testing::InitGoogleTest(&argc, argv);
