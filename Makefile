@@ -10,7 +10,6 @@ build:
 	cd build && \
 	cmake .. && \
 	cmake --build . && \
-	cp find_film.txt list_films.txt 
 	./tests/test_film
 
 test:
