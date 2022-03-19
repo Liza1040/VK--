@@ -13,9 +13,6 @@ build:
 	cmake --build . && \
 	./src/build/film
 
-check: 
-	./linters/run.sh
-
 test:
 	./src/build/tests/test_film && \
 	valgrind --tool=memcheck --leak-check=yes ./src/build/tests/test_film
