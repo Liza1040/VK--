@@ -187,8 +187,65 @@ TEST(Testfindfilmimlist, Checkcorrectdata) {
     FILE* stream_list_films =fmemopen(buffer_list_films, strlen(buffer_list_films), "r");
     struct film *head_list_films = read_films_from_file(stream_list_films);
 
-    char buffer_1 [] = "2010; комедия; 6.9";
-    char buffer_2 [] = "2015; мюзикл; 7.9";
+    char buffer_1 [] = "2010; комедия; 6; 9";
+    char buffer_2 [] = "2015; мюзикл; 9; 1";
+
+    FILE* stream_1 =fmemopen(buffer_1, strlen(buffer_1), "r");
+    FILE* stream_2 =fmemopen(buffer_2, strlen(buffer_2), "r");
+
+    struct film *head_1 = find_film_in_list(head_list_films, stream_1);
+    struct film *head_2 = find_film_in_list(head_list_films, stream_2);
+
+    EXPECT_STREQ("Елки", head_1->name);
+    EXPECT_EQ(2010, head_1->year_of_release);
+    EXPECT_STREQ("комедия", head_1->genre);
+    EXPECT_EQ(6.9f, head_1->average_rating);
+
+    EXPECT_STREQ("Наследники", head_2->name);
+    EXPECT_EQ(2015, head_2->year_of_release);
+    EXPECT_STREQ("мюзикл", head_2->genre);
+    EXPECT_EQ(7.9f, head_2->average_rating);
+
+    delete_film(head_1);
+    delete_film(head_2);
+    fclose(stream_1);
+    fclose(stream_2);
+
+    fclose(stream_list_films);
+}
+
+TEST(Testfindfilmimlist, Checkfilmsnotfound) {
+    char buffer_list_films [] = "Елки; 2010; комедия; 6.9\nВерх; 2000; комедия; 6\nНаследники; 2015; мюзикл; 7.9\nИ в печали, и в радости; 2001; романтика; 10";
+    FILE* stream_list_films =fmemopen(buffer_list_films, strlen(buffer_list_films), "r");
+    struct film *head_list_films = read_films_from_file(stream_list_films);
+    char buffer_1 [] = "2011; комедия; 6; 9";
+    char buffer_2 [] = "2015; драма; 9; 1";
+
+    FILE* stream_1 =fmemopen(buffer_1, strlen(buffer_1), "r");
+    FILE* stream_2 =fmemopen(buffer_2, strlen(buffer_2), "r");
+
+    struct film *head_1 = find_film_in_list(head_list_films, stream_1);
+    struct film *head_2 = find_film_in_list(head_list_films, stream_2);
+
+    EXPECT_EQ(NULL, head_1);
+    EXPECT_EQ(NULL, head_2);
+
+
+    fclose(stream_1);
+    fclose(stream_2);
+    fclose(stream_list_films);
+    delete_film(head_1);
+    delete_film(head_2);
+    delete_film(head_list_films);
+}
+
+TEST(Testfindfilmimlist, Checkfilmsfound) {
+    char buffer_list_films [] = "Елки; 2010; комедия; 6.9\nВерх; 2000; комедия; 6\nНаследники; 2015; мюзикл; 7.9\nИ в печали, и в радости; 2001; романтика; 10";
+    FILE* stream_list_films =fmemopen(buffer_list_films, strlen(buffer_list_films), "r");
+    struct film *head_list_films = read_films_from_file(stream_list_films);
+
+    char buffer_1 [] = "2010; комедия; 6; 9";
+    char buffer_2 [] = "2015; мюзикл; 9; 1";
 
     FILE* stream_1 =fmemopen(buffer_1, strlen(buffer_1), "r");
     FILE* stream_2 =fmemopen(buffer_2, strlen(buffer_2), "r");

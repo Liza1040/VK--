@@ -19,8 +19,6 @@ struct film * read_films_from_file(FILE *file)
 	{
 		tmp_name = new_string(buf_name);
 		tmp_genre = new_string(buf_genre);
-		//printf("%s",tmp_genre);
-		//printf("%s;%d;%s;%f", tmp_name,tmp_year,tmp_genre,tmp_rating);
 		if (tmp_name != NULL && tmp_year >= 1888 && tmp_genre != NULL && tmp_rating >= 0 && tmp_rating <= 10 && n == 4)
 		{
 			head_list_films = add_film(head_list_films, tmp_name, tmp_year, tmp_genre, tmp_rating);
@@ -34,7 +32,7 @@ struct film * read_films_from_file(FILE *file)
 	}
 	if(n != EOF)
 	{
-		printf("Некорректные данные");
+		printf("Некорректные данные\n");
 		free(tmp_name);
 		free(tmp_genre);
 		return NULL;
@@ -47,14 +45,16 @@ struct film * read_films_from_file(FILE *file)
 	}
 	return head_list_films;
 }
+
 char* new_string(const char* buf)
 {
 	char* string = (char *)malloc(strlen(buf));
     strcpy(string, buf);
 	return string;
 }
+
 struct film *find_film_in_list(struct film * list_films, FILE *file)
-{
+{	
 	struct film *head_find_films = NULL;
 	int n = 0;
 	int find_year = 0;
@@ -64,12 +64,12 @@ struct film *find_film_in_list(struct film * list_films, FILE *file)
 	char buf_genre[256];
 	struct film * safe_exit()
 	{
-		//if (find_genre != NULL)
+		if (find_genre != NULL)
 		free(find_genre);
 		return head_find_films;
 	}
 
-	n = fscanf(file,"%d; %255[^;];%f;%f",&find_year,&(buf_genre[0]),&min_rating,&max_rating);
+	n = fscanf(file,"%d; %255[^;];%f;%f",&(find_year), &(buf_genre[0]), &min_rating, &max_rating);
 	find_genre = new_string(buf_genre);
 	if (n == EOF)
 	{
@@ -87,6 +87,7 @@ struct film *find_film_in_list(struct film * list_films, FILE *file)
 		min_rating = max_rating; 
 		max_rating = change_min_max;
 	}
+	
 	while(list_films != NULL)
 	{
 		if(list_films->year_of_release == find_year &&  strcmp(list_films->genre,find_genre) == 0 && list_films->average_rating >= min_rating && list_films->average_rating <= max_rating)
