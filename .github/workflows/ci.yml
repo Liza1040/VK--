@@ -8,7 +8,6 @@ jobs:
       - run: make packages
   build:
     runs-on: ubuntu-latest
-    needs: [check]
     steps:
       - uses: actions/checkout@v2
       - name: Install GTest
@@ -24,3 +23,52 @@ jobs:
           name: build-artifact
           path: |
             main.out
+  test:
+    runs-on: ubuntu-latest
+    container: leshiy1295/gcc_linters
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v2
+      - run: make packages && make build && make test && make report
+      - name: coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: coverage.info
+                  # - name: Install valgrind and report software
+      #   run: |
+      #     sudo apt update && sudo apt install valgrind lcov
+      # - name: Run tests
+      #   run: |
+      #     cd build
+      #     valgrind --leak-check=full -s --log-file=valgrind_tests_report.txt ./tests/sky_test
+      #     lcov -t ./tests/sky_test -o coverage.info -c -d sky_lib/ && genhtml -o coverage_report coverage.info
+      # - name: Upload artifacts
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     path: |
+      #       build/coverage_report/
+      #       build/valgrind_tests_report.txt
+      #       build/skyscrapers
+
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@v2 
+#     - run: make build
+#     # - name: Upload artifacts
+#       # uses: actions/upload-artifact@v2
+#       # with:
+#       #   path: main.out
+#   test:
+#     runs-on: ubuntu-latest
+#     container: leshiy1295/gcc_linters
+#     needs: [build]
+#     steps:
+#       - uses: actions/checkout@v2
+#       - run: make packages && make build && make test && make report
+#       - name: coveralls
+#         uses: coverallsapp/github-action@master
+#         with:
+#           github-token: ${{ secrets.GITHUB_TOKEN }}
+#           path-to-lcov: coverage.info
