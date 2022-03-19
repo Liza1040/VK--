@@ -8,22 +8,19 @@ jobs:
       - run: make packages
   build:
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2 
-    - run: make build
-    # - name: Upload artifacts
-      # uses: actions/upload-artifact@v2
-      # with:
-      #   path: main.out
-  test:
-    runs-on: ubuntu-latest
-    container: leshiy1295/gcc_linters
-    needs: [build]
+    needs: [check]
     steps:
       - uses: actions/checkout@v2
-      - run: make packages && make build && make test && make report
-      - name: coveralls
-        uses: coverallsapp/github-action@master
+      - name: Install GTest
+        run: |
+          git clone https://github.com/google/googletest.git
+          cd googletest && mkdir build && cd build && cmake .. && cmake --build . && sudo cmake --install . && cd ../..
+      - name: Build
+        run: |
+          make build
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: coverage.info
+          name: build-artifact
+          path: |
+            main.out
