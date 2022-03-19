@@ -1,7 +1,6 @@
 packages:
 	sudo apt-get update -y && \
 	sudo apt-get install build-essential && \
-	sudo apt-get install -y cppcheck clang-tidy python3-pip libc6-dbg lcov libgtest-dev && \
 	pip3 install cpplint && \
 	sudo apt-get install valgrind
 
