@@ -17,7 +17,7 @@ test:
 	valgrind --tool=memcheck --leak-check=yes ./src/build/tests/test_film
 
 report:	
-	cd build && \
+	cd src/build && \
 	lcov -t "tests/test_film" -o coverage.info -c -d find/ && genhtml -o report coverage.info
 
 	
