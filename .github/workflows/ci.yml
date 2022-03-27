@@ -25,8 +25,8 @@ jobs:
       - uses: actions/checkout@v2
       - run: sudo apt update && sudo apt install valgrind lcov 
       - run: |
-          cd src/build
-          make report
+          cd build
+          lcov -t "tests/test_film" -o coverage.info -c -d find/ && genhtml -o report coverage.info
       - name: coveralls
         uses: coverallsapp/github-action@master
         with:
