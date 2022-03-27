@@ -8,6 +8,7 @@ jobs:
       - run: make packages
   build:
     runs-on: ubuntu-latest
+    needs: [check]
     steps:
       - uses: actions/checkout@v2
       - name: Install GTest
