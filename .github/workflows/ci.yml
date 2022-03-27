@@ -19,7 +19,6 @@ jobs:
           make build
   test:
     runs-on: ubuntu-latest
-    container: leshiy1295/gcc_linters
     needs: [build]
     steps:
       - uses: actions/checkout@v2
