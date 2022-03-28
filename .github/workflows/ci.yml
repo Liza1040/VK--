@@ -42,9 +42,9 @@ jobs:
       - name: Coveralls
         run: |
           cd src/build
-          lcov -t ./tests/test_film -o coverage.info -c -d find/ -d list/
+          lcov -t "tests/test_film" -o coverage.info -c -d find/ -d list/
           genhtml -o report coverage.info
-        # uses: coverallsapp/github-action@master
-        # with:
-        #   github-token: ${{ secrets.GITHUB_TOKEN }}
-        #   path-to-lcov: coverage.info
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: coverage.info
