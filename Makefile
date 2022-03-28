@@ -2,7 +2,7 @@ packages:
 	sudo apt-get update -y && \
 	sudo apt-get install build-essential && \
 	pip3 install cpplint && \
-	sudo apt-get install valgrind lcov
+	sudo apt-get install lcov
 
 build:
 	cd src && \
