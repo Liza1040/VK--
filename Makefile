@@ -1,8 +1,7 @@
 packages:
 	sudo apt-get update -y && \
 	sudo apt-get install build-essential && \
-	pip3 install cpplint && \
-	sudo apt install lcov
+	pip3 install cpplint
 
 build:
 	cd src && \
