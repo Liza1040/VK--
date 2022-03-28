@@ -1,7 +1,7 @@
 packages:
 	sudo apt-get update -y && \
 	sudo apt-get install build-essential && \
-	sudo apt-get install libgtest-dev && \
+	# sudo apt-get install libgtest-dev && \
 	pip3 install cpplint && \
 	sudo apt-get install valgrind lcov
 
