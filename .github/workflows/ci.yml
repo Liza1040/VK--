@@ -8,29 +8,29 @@ jobs:
       - name: Install packages
         run: |
           make packages
-          git clone https://github.com/google/googletest.git
-          cd googletest && mkdir build && cd build && cmake .. && cmake --build . && sudo cmake --install . && cd ../..
+        # git clone https://github.com/google/googletest.git
+        # cd googletest && mkdir build && cd build && cmake .. && cmake --build . && sudo cmake --install . && cd ../..
 	# sudo apt-get install libgtest-dev && \
-  # build:
-  #   runs-on: ubuntu-latest
-  #   needs: [check]
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Install GTest
-  #       run: |
-  #         git clone https://github.com/google/googletest.git
-  #         cd googletest && mkdir build && cd build && cmake .. && cmake --build . && sudo cmake --install . && cd ../..
-  #     - name: Build
-  #       run: |
-  #         make build
   build:
     runs-on: ubuntu-latest
     needs: [install]
     steps:
       - uses: actions/checkout@v2
-      - name: Build our code
+      - name: Install GTest
+        run: |
+          git clone https://github.com/google/googletest.git
+          cd googletest && mkdir build && cd build && cmake .. && cmake --build . && sudo cmake --install . && cd ../..
+      - name: Build
         run: |
           make build
+  # build:
+  #   runs-on: ubuntu-latest
+  #   needs: [install]
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Build our code
+  #       run: |
+  #         make build
   test:
     runs-on: ubuntu-latest
     needs: [build]
