@@ -26,33 +26,34 @@ struct film * add_film(struct film * head, char *const tmp_name, const int tmp_y
 
 struct film * get_film(struct film * head, int number_film)
 {
-	if (head!= NULL)
+	if (head == NULL)
+		return head;
+
+	while (head->next_film != NULL && number_film > 1)
 	{
-		while (head->next_film != NULL && number_film > 1)
-		{
-			head = head->next_film;
-			number_film--;
-		}
-		if(number_film > 1)
-		{
-			printf("Количество фильмов в списке меньше заданного значения\n");
-			return NULL;
-		}
+		head = head->next_film;
+		number_film--;
+	}
+	if(number_film > 1)
+	{
+		printf("Количество фильмов в списке меньше заданного значения\n");
 	}
 	return head;
 }
 
 
-void print_film(const struct film * const list_films)
+const struct film * print_film(const struct film * list_films)
 {
-	if(list_films != NULL)
-	{
-		printf("%s ", list_films->name);
-      		printf("%d ", list_films->year_of_release);
-      		printf("%s ", list_films->genre);
-      		printf("%f\n", list_films->average_rating);
-		print_film(list_films->next_film);
-	}
+	if(list_films == NULL)
+		return list_films;
+
+	printf("%s ", list_films->name);
+	printf("%d ", list_films->year_of_release);
+	printf("%s ", list_films->genre);
+	printf("%f\n", list_films->average_rating);
+	print_film(list_films->next_film);
+
+	return list_films;
 }
 
 

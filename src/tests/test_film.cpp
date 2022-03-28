@@ -65,6 +65,7 @@ TEST(Testreadfilmsfromfile, Checknotemptyfile) {
     EXPECT_EQ(2010, head_list_films->year_of_release);
     EXPECT_STREQ("комедия", head_list_films->genre);
     EXPECT_EQ(6.9f, head_list_films->average_rating);
+    EXPECT_EQ(print_film(head_list_films), head_list_films);
 
     fclose(stream_not_empty);
     delete_film(head_list_films);

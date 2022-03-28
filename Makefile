@@ -1,16 +1,16 @@
 packages:
 	sudo apt-get update -y && \
 	sudo apt-get install build-essential && \
+	sudo apt-get install libgtest-dev && \
 	pip3 install cpplint && \
-	sudo apt-get install valgrind
+	sudo apt-get install valgrind lcov
 
 build:
 	cd src && \
 	mkdir build && \
 	cd build && \
 	cmake .. && \
-	cmake --build . && \
-	./tests/test_film
+	cmake --build .
 
 test:
 	./src/build/tests/test_film && \
