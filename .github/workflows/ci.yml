@@ -5,6 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2 
+      - name: Install packages
       - run: make packages
   # build:
   #   runs-on: ubuntu-latest
@@ -33,7 +34,7 @@ jobs:
       - name: coveralls
       - run: |
           lcov -t "tests/test_film" -o coverage.info -c -d find/ -d list/ && genhtml -o report coverage.info
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: coverage.info
+        # uses: coverallsapp/github-action@master
+        # with:
+        #   github-token: ${{ secrets.GITHUB_TOKEN }}
+        #   path-to-lcov: coverage.info
