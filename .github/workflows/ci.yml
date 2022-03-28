@@ -8,8 +8,6 @@ jobs:
       - name: Install packages
         run: |
           make packages
-        # git clone https://github.com/google/googletest.git
-        # cd googletest && mkdir build && cd build && cmake .. && cmake --build . && sudo cmake --install . && cd ../..
   build:
     runs-on: ubuntu-latest
     needs: [install]
@@ -28,22 +26,12 @@ jobs:
       - name: Build
         run: |
           make build
-  # build:
-  #   runs-on: ubuntu-latest
-  #   needs: [install]
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Build our code
-  #       run: |
-  #         make build
       - name: Install valgrind and report software
         run: |
           sudo apt update && sudo apt install valgrind lcov
       - name: Coveralls
         run: |
-          cd src/build
-          lcov -t "tests/test_film" -o coverage.info -c -d find/ -d list/
-          genhtml -o coverage_report coverage.info
+          make report
       - name: Upload artifacts
         uses: coverallsapp/github-action@master
         with:
