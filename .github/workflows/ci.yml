@@ -4,9 +4,9 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-        uses: actions/checkout@v2 
       - name: Install packages
-      - run: |
+        uses: actions/checkout@v2
+        run: |
           make packages
   # build:
   #   runs-on: ubuntu-latest
@@ -24,17 +24,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: [check]
     steps:
-        uses: actions/checkout@v2
       - name: Build our code
-      - run: |
+        uses: actions/checkout@v2
+        run: |
           make build
   test:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-        uses: actions/checkout@v2
       - name: Coveralls
-      - run: |
+        uses: actions/checkout@v2
+        run: |
           lcov -t "tests/test_film" -o coverage.info -c -d find/ -d list/
           genhtml -o report coverage.info
         # uses: coverallsapp/github-action@master
