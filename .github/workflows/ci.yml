@@ -40,7 +40,7 @@ jobs:
           sudo apt update && sudo apt install valgrind lcov
       - name: Coveralls
         run: |
-          lcov -t "tests/test_film" -o coverage.info -c -d find/ -d list/
+          lcov -t ./tests/test_film -o coverage.info -c -d find/ -d list/
           genhtml -o report coverage.info
         # uses: coverallsapp/github-action@master
         # with:
