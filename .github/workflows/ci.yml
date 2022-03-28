@@ -38,11 +38,13 @@ jobs:
   #         make build
       - name: Install valgrind and report software
         run: |
-          sudo apt update && sudo apt install valgrind gcov
+          sudo apt update && sudo apt install valgrind lcov
       - name: Coveralls
         run: |
           cd src/build
-          gcov -t "tests/test_film" -o coverage.info -c -d find/ -d list/
+          lcov -t "tests/test_film" -o coverage.info -c -d find/ -d list/
+          cd find/CMakeFiles/find.dir
+          ls
           genhtml -o coverage_report coverage.info
       - name: Upload artifacts
         uses: coverallsapp/github-action@master
