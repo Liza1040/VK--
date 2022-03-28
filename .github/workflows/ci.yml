@@ -44,6 +44,7 @@ jobs:
           cd src/build
           lcov -t "tests/test_film" -o coverage.info -c -d find/ -d list/
           genhtml -o report coverage.info
+      - name: Upload artifacts
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
