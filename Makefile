@@ -8,7 +8,8 @@ build:
 	mkdir build && \
 	cd build && \
 	cmake .. && \
-	cmake --build .
+	cmake --build . && \
+	./tests/test_film
 
 test:
 	./src/build/tests/test_film && \
