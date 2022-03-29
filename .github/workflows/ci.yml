@@ -1,0 +1,34 @@
+on: push
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install packages
+        run: |
+          make packages
+  build:
+    runs-on: ubuntu-latest
+    needs: [install]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install GTest
+        run: |
+          git clone https://github.com/google/googletest.git
+          cd googletest
+          mkdir build
+          cd build
+          cmake ..
+          cmake --build .
+          sudo cmake --install .
+          cd ../..
+      - name: Build
+        run: |
+          make build
+      - name: Install valgrind and report software
+        run: |
+          sudo apt update && sudo apt install valgrind lcov
+      - name: Coveralls
+        run: |
+          make report
