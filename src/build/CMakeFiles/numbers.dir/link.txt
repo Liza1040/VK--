@@ -1,0 +1,1 @@
+/usr/bin/cc    -coverage -lgcov CMakeFiles/numbers.dir/main.c.o CMakeFiles/numbers.dir/naive/naive.c.o  -o numbers naive/libnaive.a 

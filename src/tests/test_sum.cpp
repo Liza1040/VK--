@@ -7,37 +7,57 @@ extern "C" {
     // #include "../find/find_film.h"
 }
 
-TEST(Testnaivecount, Checkcorrectanswer) {
+TEST(Testnaivecount, Checkcorrectwork) {
     int array_of_numbers_100[100];
     int* naive_sum_numbers_100;
+    int array_of_numbers_1000[1000];
+    int* naive_sum_numbers_1000;
     for(int i = 0; i < 100; i++)
     {
         array_of_numbers_100[i] = i;
     }
+    for(int i = 0; i < 1000; i++)
+    {
+        array_of_numbers_1000[i] = i;
+    }
     
+    naive_sum_numbers_100 = naive_count(array_of_numbers_100, 100, 10, 10);
+    naive_sum_numbers_1000 = naive_count(array_of_numbers_1000, 1000, 10, 100);
 
-    
-    EXPECT_EQ(2010, head_list_films->year_of_release);
-    EXPECT_STREQ("комедия", head_list_films->genre);
-    EXPECT_EQ(6.9f, head_list_films->average_rating);
-    EXPECT_EQ(get_film(head_list_films, 2), head_list_films->next_film);
+    ASSERT_EQ(450, naive_sum_numbers_100[0]);
+    ASSERT_EQ(460, naive_sum_numbers_100[1]);
+    ASSERT_EQ(500, naive_sum_numbers_100[5]);
+    ASSERT_EQ(540, naive_sum_numbers_100[9]);
 
-    EXPECT_STREQ("Лето", get_film(head_list_films, 2)->name);
-    EXPECT_EQ(2021, get_film(head_list_films, 2)->year_of_release);
-    EXPECT_STREQ("приключения", get_film(head_list_films, 2)->genre);
-    EXPECT_EQ(float(5), get_film(head_list_films, 2)->average_rating);
-    EXPECT_EQ(get_film(head_list_films, 3), get_film(head_list_films, 2)->next_film);
-
-    EXPECT_STREQ("Зима", get_film(head_list_films, 3)->name);
-    EXPECT_EQ(2020, get_film(head_list_films, 3)->year_of_release);
-    EXPECT_STREQ("драма", get_film(head_list_films, 3)->genre);
-    EXPECT_EQ(7.5f, get_film(head_list_films, 3)->average_rating);
-    EXPECT_EQ(NULL, get_film(head_list_films, 3)->next_film);
-
-    delete_film(head_list_films);
+    ASSERT_EQ(49500, naive_sum_numbers_1000[0]);
+    ASSERT_EQ(49600, naive_sum_numbers_1000[1]);
+    ASSERT_EQ(50000, naive_sum_numbers_1000[5]);
+    ASSERT_EQ(50400, naive_sum_numbers_1000[9]);
 }
 
-TEST(Testreadfilmsfromfile, Checkemptyfile) {
+/*TEST(Testnaivecount, Checkincorrectwork) {
+    int array_of_numbers_100[100];
+    int* naive_sum_numbers_100;
+    int array_of_numbers_10[10];
+    int* naive_sum_numbers_10;
+    for(int i = 0; i < 100; i++)
+    {
+        array_of_numbers_100[i] = i;
+    }
+    for(int i = 0; i < 10; i++)
+    {
+        array_of_numbers_10[i] = i;
+    }
+
+    naive_sum_numbers_100 = naive_count(array_of_numbers_100, 100, 10, 100);
+    naive_sum_numbers_10 = naive_count(array_of_numbers_10, 10, 10, 10);
+
+    EXPECT_EQ(NULL, naive_sum_numbers_100);
+
+    EXPECT_EQ(NULL, naive_sum_numbers_10);
+}*/
+
+/*TEST(Testreadfilmsfromfile, Checkemptyfile) {
     char buffer_empty [] = "";
     FILE* stream_empty =fmemopen(buffer_empty, strlen(buffer_empty), "r");
     struct film *head_list_films = read_films_from_file(stream_empty);
@@ -198,7 +218,7 @@ TEST(Testfindfilmimlist, Checkfilmsnotfound) {
     delete_film(head_1);
     delete_film(head_2);
     delete_film(head_list_films);
-}
+}*/
 
 
 int main(int argc, char **argv) {

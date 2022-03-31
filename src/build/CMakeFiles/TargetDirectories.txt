@@ -1,0 +1,9 @@
+/home/user/Технопарк/Углубленный  C_C++/Work/src/build/CMakeFiles/rebuild_cache.dir
+/home/user/Технопарк/Углубленный  C_C++/Work/src/build/CMakeFiles/numbers.dir
+/home/user/Технопарк/Углубленный  C_C++/Work/src/build/CMakeFiles/edit_cache.dir
+/home/user/Технопарк/Углубленный  C_C++/Work/src/build/naive/CMakeFiles/rebuild_cache.dir
+/home/user/Технопарк/Углубленный  C_C++/Work/src/build/naive/CMakeFiles/naive.dir
+/home/user/Технопарк/Углубленный  C_C++/Work/src/build/naive/CMakeFiles/edit_cache.dir
+/home/user/Технопарк/Углубленный  C_C++/Work/src/build/tests/CMakeFiles/rebuild_cache.dir
+/home/user/Технопарк/Углубленный  C_C++/Work/src/build/tests/CMakeFiles/test_sum.dir
+/home/user/Технопарк/Углубленный  C_C++/Work/src/build/tests/CMakeFiles/edit_cache.dir

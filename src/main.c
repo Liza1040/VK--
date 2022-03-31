@@ -5,9 +5,9 @@
 
 
 #define ARRAY_OF_NUMBERS "array_of_numbers.txt"
-#define ARRAY_SIZE 100 //100000000
+#define ARRAY_SIZE 1000 //100000000
 #define K 10
-#define I 10 //10000000
+#define I 100 //10000000
 
 
 int main() {

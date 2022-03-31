@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/user/Технопарк/Углубленный  C_C++/Work/src/naive/naive.h
+
+/home/user/Технопарк/Углубленный  C_C++/Work/src/tests/test_sum.cpp
+gtest/gtest.h
+-
+stdio.h
+-
+../naive/naive.h
+/home/user/Технопарк/Углубленный  C_C++/Work/src/naive/naive.h
+

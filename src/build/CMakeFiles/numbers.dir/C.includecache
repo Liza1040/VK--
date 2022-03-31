@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/user/Технопарк/Углубленный  C_C++/Work/src/main.c
+stdio.h
+-
+naive/naive.h
+/home/user/Технопарк/Углубленный  C_C++/Work/src/naive/naive.h
+
+/home/user/Технопарк/Углубленный  C_C++/Work/src/naive/naive.c
+stdio.h
+-
+stdlib.h
+-
+naive.h
+/home/user/Технопарк/Углубленный  C_C++/Work/src/naive/naive.h
+
+/home/user/Технопарк/Углубленный  C_C++/Work/src/naive/naive.h
+

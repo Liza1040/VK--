@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10.2)
-project(sum_numbers)
+project(numbers)
 
 add_subdirectory(naive)
 
@@ -18,4 +18,3 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${NAIVE_INCLUDE_DIRS})# ${FIND
 target_link_libraries(${PROJECT_NAME} PRIVATE ${NAIVE_LIBRARIES})# ${FIND_LIBRARIES})
 
 add_subdirectory(tests)
-
