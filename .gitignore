@@ -1,3 +1,4 @@
 *.out
 *.o
 array.txt
+build
