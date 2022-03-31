@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnaive.a  CMakeFiles/naive.dir/naive.c.o
-/usr/bin/ranlib libnaive.a
