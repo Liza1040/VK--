@@ -52,7 +52,7 @@ int* count_numbers(const int* const array_of_numbers, const int array_size, int 
         if (pids[i] == -1) 
         {
             printf("fork failed\n");
-            free(sum_numbers_for_k);
+            free(sum_numbers_for_procces);
             free(parallel_sum_numbers);
             return NULL;
         }
@@ -72,7 +72,7 @@ int* count_numbers(const int* const array_of_numbers, const int array_size, int 
             parallel_sum_numbers = work_procces(array_of_numbers, parallel_sum_numbers, array_size, K, I, start_position, finish_position);
             if(parallel_sum_numbers == NULL)
             {
-                free(sum_numbers_for_k);
+                free(sum_numbers_for_procces);
                 free(parallel_sum_numbers);
                 return NULL;
             }

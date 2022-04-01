@@ -6,6 +6,8 @@ set(TEST_SUM_INCLUDE_DIRS)
 
 file(GLOB SOURCES *.cpp)
 
+option(BUILD_GMOCK "Do you want to build gmonk?" OFF)
+
 include(FetchContent)
 FetchContent_Declare(
   googletest
