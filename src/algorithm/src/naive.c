@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "naive.h"
+#include "algorithm.h"
 
 int* count_numbers(const int* const array_of_numbers, const int array_size, int K, int I)
 {

@@ -3,9 +3,7 @@
 // #include <string.h>
 
 extern "C" {
-    #include "../naive/naive.h"
-    #include "../parallel/parallel.h"
-    #include "../array/array.h"
+    #include "../algorithm/inc/algorithm.h"
 }
 
 TEST(Testnaivecount, Checkcorrectarguments) {

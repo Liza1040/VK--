@@ -4,9 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "array/array.h"
-#include "parallel/parallel.h"
-#include "naive/naive.h"
+#include "algorithm.h"
 
 
 #define ARRAY_OF_NUMBERS "array.txt"

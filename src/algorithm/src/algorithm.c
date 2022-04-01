@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "array.h"
+#include "algorithm.h"
 
 int* read_array_from_file(FILE *file, const int array_size)
 {

@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#include "parallel.h"
+#include "algorithm.h"
 
 //#define COUNT_PROCESS 100
 

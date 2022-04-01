@@ -1,22 +1,18 @@
 cmake_minimum_required(VERSION 3.10.2)
 project(numbers)
 
-add_subdirectory(array)
+add_subdirectory(algorithm)
 
-add_subdirectory(naive)
+message("ALGORITHM_INCLUDE_DIRS = ${ALGORITHM_INCLUDE_DIRS}")
+message("ALGORITHM_LIBRARIES = ${ALGORITHM_LIBRARIES}")
 
-message("NAIVE_INCLUDE_DIRS = ${NAIVE_INCLUDE_DIRS}")
-message("NAIVE_LIBRARIES = ${NAIVE_LIBRARIES}")
+#file(GLOB SOURCES "*.c" "**/*.c")
 
-add_subdirectory(parallel)
-
-file(GLOB SOURCES "*.c" "**/*.c")
-
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} main.c)
 
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -coverage -lgcov" )
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${ARRAY_INCLUDE_DIRS} ${NAIVE_INCLUDE_DIRS} ${PARALLEL_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${ARRAY_LIBRARIES} ${NAIVE_LIBRARIES} ${PARALLEL_LIBRARIES})
+target_include_directories(${PROJECT_NAME} PUBLIC ${ALGORITHM_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${ALGORITHM_LIBRARIES})
 
 add_subdirectory(tests)
