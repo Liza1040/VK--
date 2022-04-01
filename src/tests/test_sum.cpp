@@ -23,15 +23,18 @@ TEST(Testnaivecount, Checkcorrectarguments) {
     naive_sum_numbers_100 = count_numbers(array_of_numbers_100, 100, 10, 10);
     naive_sum_numbers_1000 = count_numbers(array_of_numbers_1000, 1000, 10, 100);
 
-    ASSERT_EQ(450, naive_sum_numbers_100[0]);
-    ASSERT_EQ(460, naive_sum_numbers_100[1]);
-    ASSERT_EQ(500, naive_sum_numbers_100[5]);
-    ASSERT_EQ(540, naive_sum_numbers_100[9]);
+    EXPECT_EQ(450, naive_sum_numbers_100[0]);
+    EXPECT_EQ(460, naive_sum_numbers_100[1]);
+    EXPECT_EQ(500, naive_sum_numbers_100[5]);
+    EXPECT_EQ(540, naive_sum_numbers_100[9]);
 
-    ASSERT_EQ(49500, naive_sum_numbers_1000[0]);
-    ASSERT_EQ(49600, naive_sum_numbers_1000[1]);
-    ASSERT_EQ(50000, naive_sum_numbers_1000[5]);
-    ASSERT_EQ(50400, naive_sum_numbers_1000[9]);
+    EXPECT_EQ(49500, naive_sum_numbers_1000[0]);
+    EXPECT_EQ(49600, naive_sum_numbers_1000[1]);
+    EXPECT_EQ(50000, naive_sum_numbers_1000[5]);
+    EXPECT_EQ(50400, naive_sum_numbers_1000[9]);
+
+    free(naive_sum_numbers_1000);
+    free(naive_sum_numbers_100);
 }
 
 TEST(Testnaivecount, Checkincorrectarguments) {
@@ -48,9 +51,13 @@ TEST(Testnaivecount, Checkincorrectarguments) {
     naive_sum_numbers_100_K = count_numbers(array_of_numbers_100, 100, 100, 100);
     naive_sum_numbers_100_I = count_numbers(array_of_numbers_100, 100, 100, 1000);
 
-    ASSERT_EQ(NULL, naive_sum_numbers_100_size);
-    ASSERT_EQ(NULL, naive_sum_numbers_100_K);
-    ASSERT_EQ(NULL, naive_sum_numbers_100_I);
+    EXPECT_EQ(NULL, naive_sum_numbers_100_size);
+    EXPECT_EQ(NULL, naive_sum_numbers_100_K);
+    EXPECT_EQ(NULL, naive_sum_numbers_100_I);
+
+    free(naive_sum_numbers_100_size);
+    free(naive_sum_numbers_100_K);
+    free(naive_sum_numbers_100_I);
 }
 /*TEST(Testnaivecount, Checkincorrectwork) {
     int array_of_numbers_100[100];
