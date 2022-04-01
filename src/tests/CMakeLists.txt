@@ -4,7 +4,13 @@ project(test_algorithm)
 set(TEST_SUM_EXECUTABLE)
 set(TEST_SUM_INCLUDE_DIRS)
 
-file(GLOB SOURCES *.cpp)
+if(MULTIPROCESS)
+  file(GLOB SOURCES test_algorithm.cpp test_parallel.cpp)
+else()
+  file(GLOB SOURCES test_algorithm.cpp test_naive.cpp)
+endif()
+
+#file(GLOB INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR)
 
 option(BUILD_GMOCK "Do you want to build gmonk?" OFF)
 
