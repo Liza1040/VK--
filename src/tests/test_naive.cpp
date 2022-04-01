@@ -59,8 +59,3 @@ TEST(Testcountnumbers, Checkincorrectarguments) {
     free(naive_sum_numbers_100_K);
     free(naive_sum_numbers_100_I);
 }
-
-int main(int argc, char **argv) {
-testing::InitGoogleTest(&argc, argv);
-return RUN_ALL_TESTS();
-}

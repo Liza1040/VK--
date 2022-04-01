@@ -41,8 +41,3 @@ TEST(Testreadarrayfromfile, Checkincorrectfile) {
     fclose(file_1);
     fclose(file_2);
 }
-
-int main(int argc, char **argv) {
-testing::InitGoogleTest(&argc, argv);
-return RUN_ALL_TESTS();
-}
