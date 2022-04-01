@@ -33,7 +33,7 @@ TEST(Testreadarrayfromfile, Checkincorrectfile) {
     FILE* file_2 =fmemopen(buffer_incorrect, strlen(buffer_correct), "r");
     int* array_size_incorrect = read_array_from_file(file_2,50);
     
-    EXPECT_EQ(NULL, read_array_from_file);
+    EXPECT_EQ(NULL, array_buffer_incorrect);
     EXPECT_EQ(NULL, array_size_incorrect);
 
     free(array_buffer_incorrect);
