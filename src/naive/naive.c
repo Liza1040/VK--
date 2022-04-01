@@ -18,7 +18,7 @@ int* read_array_from_file(FILE *file, const int array_size)
     return array_of_numbers;
 }
 
-int* naive_count(const int* const array_of_numbers, const int array_size, int K, int I)
+int* count_numbers(const int* const array_of_numbers, const int array_size, int K, int I)
 {
     int sum_number = 0;
     int* naive_sum_numbers = (int*) malloc(K*sizeof(int));

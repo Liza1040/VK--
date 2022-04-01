@@ -1,13 +1,16 @@
 // В вашем распоряжении — массив из 100 млн. чисел. Составьте наивный алгоритм подсчета суммы [k+ 10i]-х элементов для каждого k = 1, 10 (i = 0, 10000000), после чего реализуйте параллельный алгоритм на нескольких процессах с учетом оптимизации работы с кэш-памятью.
 
 #include <stdio.h>
-#include "naive/naive.h"
+#include <stdlib.h>
+
+//#include "naive/naive.h"
+#include "parallel/parallel.h"
 
 
 #define ARRAY_OF_NUMBERS "array_of_numbers.txt"
-#define ARRAY_SIZE 1000 //100000000
+#define ARRAY_SIZE 100 //100000000
 #define K 10
-#define I 100 //10000000
+#define I 10 //10000000
 
 
 int main() {
@@ -26,7 +29,7 @@ int main() {
         fclose(file);
 		return -1;
     }
-    int* sum = naive_count(array,ARRAY_SIZE, k, i);
+    int* sum = count_numbers(array,ARRAY_SIZE, k, i);
     if(sum == NULL)
     {
         fclose(file);
@@ -36,6 +39,8 @@ int main() {
     {
         printf("%d\n",sum[i]);
     }
+    free(array);
+    free(sum);
     fclose(file);
     return 0;
 }

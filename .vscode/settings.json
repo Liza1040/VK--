@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "cmath": "c",
+        "naive.h": "c",
+        "parallel.h": "c"
     }
 }
