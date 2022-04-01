@@ -8,7 +8,7 @@ int* read_array_from_file(FILE *file, const int array_size)
     int* array_of_numbers = (int*) malloc(array_size*sizeof(int));
     for(int i=0;i<array_size;i++)
     {
-        if(n = fscanf(file, "%d",&array_of_numbers[i]) != 1)
+        if((n = fscanf(file, "%d",&array_of_numbers[i])) != 1)
         {
             printf("Некорректные числа или количество чисел\n");
             free(array_of_numbers);
