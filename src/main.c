@@ -32,6 +32,7 @@ int main() {
     if(sum == NULL)
     {
         fclose(file);
+        free(array);
 		return -1;
     }
     for(int i=0; i<10;i++)

@@ -9,13 +9,18 @@
 
 //#define COUNT_PROCESS 100
 
-int* work_procces(const int* const array_procces, int* parallel_sum_numbers, int K, int I, int start_position, int finish_position)
+int* work_procces(const int* const array_procces, int* parallel_sum_numbers, const int array_size, int K, int I, int start_position, int finish_position)
 {
     int sum_number = 0;
     for(int k; k < K; k++)
     {
         for(int i = 0;i < I;i++)
         {
+            if(k+10 * i > array_size)
+            {
+                printf("Выход за границу массива!\n");
+                return NULL;
+            }
             if(k+10 * i >= start_position && k+10 * i <= finish_position)
             {
                 sum_number = sum_number + array_procces[k+10 * i];
@@ -47,6 +52,8 @@ int* count_numbers(const int* const array_of_numbers, const int array_size, int 
         if (pids[i] == -1) 
         {
             printf("fork failed\n");
+            free(sum_numbers_for_k);
+            free(parallel_sum_numbers);
             return NULL;
         }
         if (pids[i] == 0) 
@@ -57,12 +64,18 @@ int* count_numbers(const int* const array_of_numbers, const int array_size, int 
                 start_position = i * len_array_for_process;
                 finish_position = (i + 1) * len_array_for_process - 1; 
             }
-            if(i == count_thread - 1)
+            else if(i == count_thread - 1)
             {
                 start_position = i * len_array_for_process;
                 finish_position = (i + 1) * len_array_for_process - 1 + remainder; 
             }
-            parallel_sum_numbers = work_procces(array_of_numbers, parallel_sum_numbers, K, I, start_position, finish_position);
+            parallel_sum_numbers = work_procces(array_of_numbers, parallel_sum_numbers, array_size, K, I, start_position, finish_position);
+            if(parallel_sum_numbers == NULL)
+            {
+                free(sum_numbers_for_k);
+                free(parallel_sum_numbers);
+                return NULL;
+            }
             write(fd[i][1],parallel_sum_numbers,K*sizeof(int));
             exit(0);
         }

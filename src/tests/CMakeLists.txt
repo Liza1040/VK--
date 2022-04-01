@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10.2)
-project(test_sum)
+project(test_algorithm)
 
 set(TEST_SUM_EXECUTABLE)
 set(TEST_SUM_INCLUDE_DIRS)
