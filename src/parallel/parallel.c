@@ -7,25 +7,9 @@
 
 #include "parallel.h"
 
-//#define COUNT_PROCESS 10
+//#define COUNT_PROCESS 100
 
-int* read_array_from_file(FILE *file, const int array_size)
-{
-    int n = 0;
-    int* array_of_numbers = (int*) malloc(array_size*sizeof(int));
-    for(int i=0;i<array_size;i++)
-    {
-        if(n = fscanf(file, "%d",&array_of_numbers[i]) != 1)
-        {
-            printf("Некорректные числа или количество чисел\n");
-            free(array_of_numbers);
-            return NULL;
-        }
-    }
-    return array_of_numbers;
-}
-
-void work_procces(const int* const array_procces, int* sum_numbers_for_procces, int K, int I, int start_position, int finish_position, int number_procces)
+int* work_procces(const int* const array_procces, int* parallel_sum_numbers, int K, int I, int start_position, int finish_position, int number_procces)
 {
     int sum_number = 0;
     for(int k; k < K; k++)
@@ -37,9 +21,10 @@ void work_procces(const int* const array_procces, int* sum_numbers_for_procces, 
                 sum_number = sum_number + array_procces[k+10 * i];
             }
         }
-        sum_numbers_for_procces[number_procces * K + k] = sum_number;
+        parallel_sum_numbers[k] = sum_number;
         sum_number = 0;
     }
+    return parallel_sum_numbers;
 }
 
 int* count_numbers(const int* const array_of_numbers, const int array_size, int K, int I)
@@ -53,9 +38,11 @@ int* count_numbers(const int* const array_of_numbers, const int array_size, int 
     int remainder = array_size % count_thread;
     int start_position = 0;
     int finish_position = 0;
+    int fd[count_thread][2];
 
     for (int i = 0; i < count_thread; ++i)
-    {        
+    { 
+        pipe(fd[i]);
         pids[i] = fork();
         if (pids[i] == -1) 
         {
@@ -64,6 +51,7 @@ int* count_numbers(const int* const array_of_numbers, const int array_size, int 
         }
         if (pids[i] == 0) 
         {
+            close(fd[i][0]);
             if(i < count_thread - 1)
             {
                 start_position = i * len_array_for_process;
@@ -74,28 +62,37 @@ int* count_numbers(const int* const array_of_numbers, const int array_size, int 
                 start_position = i * len_array_for_process;
                 finish_position = (i + 1) * len_array_for_process - 1 + remainder; 
             }
-            work_procces(array_of_numbers, sum_numbers_for_procces, K, I, start_position, finish_position, i);
+            parallel_sum_numbers = work_procces(array_of_numbers, parallel_sum_numbers, K, I, start_position, finish_position, i);
+            write(fd[i][1],parallel_sum_numbers,K*sizeof(int));
             exit(0);
         }
+        close(fd[i][1]);
     } 
-    //start_position = 0;
-    //finish_position = len_array_for_process - 1;
-    //work_procces(array_of_numbers, sum_numbers_for_procces, K, I, start_position, finish_position, 0);
-    for (size_t i = 0; i < count_thread-1; ++i) {
-    int status = 0;
-    waitpid(-1, &status, WUNTRACED);
-    }
-
-    int sum_numbers_for_k = 0;
-    for(int i; i < K; i++)
+    for (size_t i = 0; i < count_thread-1; ++i) 
     {
-        for(int j; j < count_thread; j++)
+        int status = 0;
+        waitpid(-1, &status, WUNTRACED);
+    }
+    for(int i = 0;i < count_thread;i++)
+    {
+        read(fd[i][0],&sum_numbers_for_procces[K*i], K*sizeof(int));
+    }
+    parallel_sum_numbers = sum_numbers_for_k(sum_numbers_for_procces, parallel_sum_numbers, count_thread, K);
+    free(sum_numbers_for_procces);
+    return parallel_sum_numbers;
+}
+
+int* sum_numbers_for_k(int* sum_numbers_for_procces, int*parallel_sum_numbers, int count_thread, int K)
+{
+    int sum_numbers_for_k = 0;
+    for(int i=0; i < K; i++)
+    {
+        for(int j=0; j < count_thread; j++)
         {
             sum_numbers_for_k = sum_numbers_for_k + *(sum_numbers_for_procces + j * K + i);
         }
         parallel_sum_numbers[i] = sum_numbers_for_k;
         sum_numbers_for_k = 0;
     }
-    free(sum_numbers_for_procces);
     return parallel_sum_numbers;
 }

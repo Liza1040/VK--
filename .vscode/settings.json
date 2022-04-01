@@ -3,6 +3,8 @@
         "stdlib.h": "c",
         "cmath": "c",
         "naive.h": "c",
-        "parallel.h": "c"
-    }
+        "parallel.h": "c",
+        "array.h": "c"
+    },
+    "C_Cpp.dimInactiveRegions": false
 }

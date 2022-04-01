@@ -4,10 +4,11 @@
 
 extern "C" {
     #include "../naive/naive.h"
-    // #include "../find/find_film.h"
+    #include "../parallel/parallel.h"
+    #include "../array/array.h"
 }
 
-TEST(Testnaivecount, Checkcorrectwork) {
+TEST(Testnaivecount, Checkcorrectarguments) {
     int array_of_numbers_100[100];
     int* naive_sum_numbers_100;
     int array_of_numbers_1000[1000];
@@ -21,8 +22,8 @@ TEST(Testnaivecount, Checkcorrectwork) {
         array_of_numbers_1000[i] = i;
     }
     
-    naive_sum_numbers_100 = naive_count(array_of_numbers_100, 100, 10, 10);
-    naive_sum_numbers_1000 = naive_count(array_of_numbers_1000, 1000, 10, 100);
+    naive_sum_numbers_100 = count_numbers(array_of_numbers_100, 100, 10, 10);
+    naive_sum_numbers_1000 = count_numbers(array_of_numbers_1000, 1000, 10, 100);
 
     ASSERT_EQ(450, naive_sum_numbers_100[0]);
     ASSERT_EQ(460, naive_sum_numbers_100[1]);
@@ -35,6 +36,24 @@ TEST(Testnaivecount, Checkcorrectwork) {
     ASSERT_EQ(50400, naive_sum_numbers_1000[9]);
 }
 
+TEST(Testnaivecount, Checkincorrectarguments) {
+    int array_of_numbers_100[100];
+    int* naive_sum_numbers_100_size;
+    int* naive_sum_numbers_100_K;
+    int* naive_sum_numbers_100_I;
+    for(int i = 0; i < 100; i++)
+    {
+        array_of_numbers_100[i] = i;
+    }
+    
+    naive_sum_numbers_100_size = count_numbers(array_of_numbers_100, 10, 10, 10);
+    naive_sum_numbers_100_K = count_numbers(array_of_numbers_100, 100, 100, 100);
+    naive_sum_numbers_100_I = count_numbers(array_of_numbers_100, 100, 100, 1000);
+
+    ASSERT_EQ(NULL, naive_sum_numbers_100_size);
+    ASSERT_EQ(NULL, naive_sum_numbers_100_K);
+    ASSERT_EQ(NULL, naive_sum_numbers_100_I);
+}
 /*TEST(Testnaivecount, Checkincorrectwork) {
     int array_of_numbers_100[100];
     int* naive_sum_numbers_100;
