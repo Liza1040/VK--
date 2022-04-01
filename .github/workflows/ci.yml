@@ -16,10 +16,10 @@ jobs:
           mkdir build
           cd build
           cmake -DTESTS=ON -DWITH_STATIC_CHECKS=ON ..
-      - name: Code Style
-        run: |
-          cd src/build 
-          make clangformat
+      # - name: Code Style
+      #   run: |
+      #     cd src/build 
+      #     make clangformat
       - name: Make
         run: |
           cd src/build 
@@ -73,10 +73,10 @@ jobs:
           mkdir build
           cd build
           cmake -DTESTS=ON -DMULTIPROCESS=ON -DWITH_STATIC_CHECKS=ON ..
-      - name: Code Style
-        run: |
-          cd src/build 
-          make clangformat
+      # - name: Code Style
+      #   run: |
+      #     cd src/build 
+      #     make clangformat
       - name: Make
         run: |
           cd src/build 
