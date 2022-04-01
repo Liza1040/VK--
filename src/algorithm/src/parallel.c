@@ -9,7 +9,7 @@
 
 //#define COUNT_PROCESS 100
 
-int* work_procces(const int* const array_procces, int* parallel_sum_numbers, int K, int I, int start_position, int finish_position, int number_procces)
+int* work_procces(const int* const array_procces, int* parallel_sum_numbers, int K, int I, int start_position, int finish_position)
 {
     int sum_number = 0;
     for(int k; k < K; k++)
@@ -62,13 +62,13 @@ int* count_numbers(const int* const array_of_numbers, const int array_size, int 
                 start_position = i * len_array_for_process;
                 finish_position = (i + 1) * len_array_for_process - 1 + remainder; 
             }
-            parallel_sum_numbers = work_procces(array_of_numbers, parallel_sum_numbers, K, I, start_position, finish_position, i);
+            parallel_sum_numbers = work_procces(array_of_numbers, parallel_sum_numbers, K, I, start_position, finish_position);
             write(fd[i][1],parallel_sum_numbers,K*sizeof(int));
             exit(0);
         }
         close(fd[i][1]);
     } 
-    for (size_t i = 0; i < count_thread-1; ++i) 
+    for (int i = 0; i < count_thread-1; ++i) 
     {
         int status = 0;
         waitpid(-1, &status, WUNTRACED);
