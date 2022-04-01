@@ -12,7 +12,6 @@
 #define K 10
 #define I 10 //10000000
 
-
 int main() {
 	FILE *file;
     int k = K;
