@@ -103,7 +103,7 @@ jobs:
       - name: TESTS
         run: |
           cd src/build 
-          make tests_with_valgrind
+          make tests
       - name: Generate coverage reports
         run: |
           cd src/build 
