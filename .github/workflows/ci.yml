@@ -1,0 +1,113 @@
+on: push
+
+jobs:
+  serial-build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - name: Install packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake build-essential clang-tidy-12 clang-format-12
+      - name: Cmake
+        run: |
+          cd src
+          mkdir build
+          cd build
+          cmake -DTESTS=ON -DWITH_STATIC_CHECKS=ON ..
+      - name: Make
+        run: |
+          cd src/build 
+          make -j$(nproc)
+  serial-test:
+    runs-on: ubuntu-latest
+    needs: [serial-build]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake build-essential clang-tidy-12 clang-format-12 lcov valgrind
+      - name: CMake with option for tests
+        run: |
+          cd src
+          mkdir build
+          cd build
+          cmake -DTESTS=ON ..
+      - name: Make
+        run: |
+          cd src/build 
+          make -j$(nproc)
+      - name: TESTS
+        run: |
+          cd src/build 
+          make tests_with_valgrind
+      - name: Generate coverage reports
+        run: |
+          cd src/build 
+          lcov -t "tests/test_sum" -o coverage.info -c -d algorithm/        
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: src/build/coverage.info
+          flag-name: serial
+          parallel: true 
+  # Сборка многопроцессоной реализации
+  multiprocess-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake build-essential clang-tidy-12 clang-format-12
+      - name: CMake with option for tests
+        run: |
+          cd src
+          mkdir build
+          cd build
+          cmake -DTESTS=ON -DMULTIPROCESS=ON -DWITH_STATIC_CHECKS=ON ..
+      - name: Make
+        run: |
+          cd src/build 
+          make -j$(nproc)
+  multiprocess-test:
+    runs-on: ubuntu-latest
+    needs: [multiprocess-build]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake build-essential clang-tidy-12 clang-format-12 lcov valgrind
+      - name: CMake with option for tests
+        run: |
+          cd src
+          mkdir build
+          cd build
+          cmake -DTESTS=ON -DMULTIPROCESS=ON ..
+      - name: Make
+        run: |
+          cd src/build 
+          make -j$(nproc)
+      - name: TESTS
+        run: |
+          cd src/build 
+          make tests
+      - name: Generate coverage reports
+        run: |
+          cd src/build 
+          lcov -t "tests/test_sum" -o coverage.info -c -d algorithm/
+  # Завершения отправки покрытия
+  finish:
+    if: ${{ always() }}
+    needs: [serial-test, multiprocess-test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true
