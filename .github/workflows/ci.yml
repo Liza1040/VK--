@@ -108,13 +108,13 @@ jobs:
         run: |
           cd src/build 
           lcov -t "tests/test_sum" -o coverage.info -c -d algorithm/
-      - name: Coveralls GitHub Action
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: src/build/coverage.info
-          flag-name: multiprocess  
-          parallel: true   
+      # - name: Coveralls GitHub Action
+      #   uses: coverallsapp/github-action@master
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     path-to-lcov: src/build/coverage.info
+      #     flag-name: multiprocess  
+      #     parallel: true   
   # Завершения отправки покрытия
   finish:
     if: ${{ always() }}
