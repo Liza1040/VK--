@@ -16,10 +16,6 @@ jobs:
           mkdir build
           cd build
           cmake -DTESTS=ON -DWITH_STATIC_CHECKS=ON ..
-      # - name: Code Style
-      #   run: |
-      #     cd src/build 
-      #     make clangformat
       - name: Make
         run: |
           cd src/build 
@@ -73,10 +69,6 @@ jobs:
           mkdir build
           cd build
           cmake -DTESTS=ON -DMULTIPROCESS=ON -DWITH_STATIC_CHECKS=ON ..
-      # - name: Code Style
-      #   run: |
-      #     cd src/build 
-      #     make clangformat
       - name: Make
         run: |
           cd src/build 
@@ -108,13 +100,6 @@ jobs:
         run: |
           cd src/build 
           lcov -t "tests/test_sum" -o coverage.info -c -d algorithm/
-      # - name: Coveralls GitHub Action
-      #   uses: coverallsapp/github-action@master
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     path-to-lcov: src/build/coverage.info
-      #     flag-name: multiprocess  
-      #     parallel: true   
   # Завершения отправки покрытия
   finish:
     if: ${{ always() }}
